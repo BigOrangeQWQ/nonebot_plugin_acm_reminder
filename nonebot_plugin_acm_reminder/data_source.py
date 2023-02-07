@@ -1,4 +1,4 @@
-from json import load
+from json import loads
 from time import strptime, mktime
 from html import unescape
 from typing import Literal, TypedDict
@@ -76,17 +76,20 @@ def html_parse_nc(content: str) -> list[ContestType]:
     soup = BeautifulSoup(content, 'html.parser')
     datatable: ResultSet = soup.find('div', class_='platform-mod js-current').find_all('div', class_='platform-item js-item') #type: ignore
     for contest in datatable:
-        cdata = load(unescape(contest.get("data-json")))
+        cdata = loads(unescape(contest.get("data-json")))
         if cdata:
             contest_data.append({"name": cdata["contestName"], 
-                                "writes": cdata["organizerName"], 
+                                "writes": [cdata["settingInfo"]["organizerName"]], 
                                 "time":  cdata["contestStartTime"], 
                                 "length": cdata["contestDuration"] / 1000 / 60, 
                                 "platform": "Nowcoder", 
                                 "id": cdata["contestId"]})
     return contest_data
 
-# contests_nc(asyncio.run(req_get("https://ac.nowcoder.com/acm/contest/vip-index?topCategoryFilter=13")))
+# import asyncio
+
+# a = html_parse_nc(asyncio.run(req_get("https://ac.nowcoder.com/acm/contest/vip-index?topCategoryFilter=13")))
+# print(a)
 
 # a = contests_cf(asyncio.run(req_get("https://codeforces.com/contests")))
 # print(a)

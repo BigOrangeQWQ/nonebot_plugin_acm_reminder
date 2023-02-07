@@ -21,34 +21,34 @@ contest_data: list[ContestType] = []
 
 require("nonebot_plugin_apscheduler")
 from nonebot_plugin_apscheduler import scheduler
-@scheduler.scheduled_job('interval', minutes=plugin_config.update_time)
-async def update_contest():
-    """更新比赛信息"""
+
+async def update():
     global contest_data
     contest_data.clear()
     contest_data.extend(html_parse_cf(await req_get("https://codeforces.com/contests")))
     contest_data.extend(html_parse_nc(await req_get("https://ac.nowcoder.com/acm/contest/vip-index?topCategoryFilter=13")))
+    print(contest_list)
+
+@scheduler.scheduled_job('interval', minutes=plugin_config.update_time, id="update_contest")
+async def update_contest():
+    await update()
+
+@get_driver().on_startup
+async def startup():
+    await update()
 
 @contest_list.handle()
 async def get_list(event: MessageEvent):
     msg = ''
     click = 1
-    if contest_data:
-        await contest_list.finish("比赛列表为空，请稍后再试")
     for contest in contest_data:
         click+=1
         time = datetime.utcfromtimestamp(contest["time"]).strftime("%Y-%m-%d %H:%M")
-        writes = ",".join(contest["writes"]) if len(contest["writes"]) < 5 else ",".join(contest["writes"][:5]) + "..."
-        msg += "——————" \
-            f"比赛名称：{contest['name']}" \
-            f"比赛平台：{contest['platform']}" \
-            f"比赛主办：{writes}" \
-            f"开赛时间：{time}" \
-            f"比赛时长: {contest['length']/60}/h" \
-            f"比赛ID：{contest['id']}" \
-            f"比赛链接：还没写" 
-        if(click%5==0):
-            await contest_list.send(msg)
-            msg = ''
-    if msg:
-        await contest_list.finish(msg)
+        writes = ",".join(filter(None,contest["writes"])) if len(contest["writes"]) < 5 else ",".join(filter(None,contest["writes"][:5])) + "..."
+        msg += "——————\n" \
+            f"名称：{contest['name']}\n" \
+            f"平台：{contest['platform']}\n" \
+            f"主办：{writes}\n" \
+            f"开时：{time}\n" \
+            f"时长: {contest['length']/60} h\n"
+        await contest_list.send(msg)

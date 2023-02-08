@@ -28,6 +28,9 @@ plugin_config: Config = Config.parse_obj(driver.config)
 
 
 async def update():
+    """
+    更新比赛信息
+    """
     global contest_data
     contest_data.clear()
     contest_data.extend(html_parse_cf(await req_get("https://codeforces.com/contests")))

@@ -80,16 +80,8 @@ def html_parse_nc(content: str) -> list[ContestType]:
         if cdata:
             contest_data.append({"name": cdata["contestName"], 
                                 "writes": [cdata["settingInfo"]["organizerName"]], 
-                                "time":  cdata["contestStartTime"], 
+                                "time":  cdata["contestStartTime"] / 1000, 
                                 "length": cdata["contestDuration"] / 1000 / 60, 
                                 "platform": "Nowcoder", 
                                 "id": cdata["contestId"]})
     return contest_data
-
-# import asyncio
-
-# a = html_parse_nc(asyncio.run(req_get("https://ac.nowcoder.com/acm/contest/vip-index?topCategoryFilter=13")))
-# print(a)
-
-# a = contests_cf(asyncio.run(req_get("https://codeforces.com/contests")))
-# print(a)

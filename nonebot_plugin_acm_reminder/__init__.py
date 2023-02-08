@@ -66,8 +66,8 @@ async def get_list(event: MessageEvent, args: Message = CommandArg()):
         writes = ",".join(filter(None, contest["writes"])) if len(
             contest["writes"]) < 5 else ",".join(filter(None, contest["writes"][:5])) + "..."
         msg += f"## {contest['name']}\n" \
-            f"* 竞赛平台  {contest['platform']}\n" \
+            f"* 竞赛平台  **{contest['platform']}**\n" \
             f"* 举办人员 {writes}\n" \
-            f"* 开始时间 {time}\n" \
-            f"* 竞赛时长 {contest['length']/60}h\n"
+            f"* 开始时间 **{time}**\n" \
+            f"* 竞赛时长 **{contest['length']/60}h**\n"
     await contest_list.finish(MessageSegment.image(await md_to_pic(msg)))

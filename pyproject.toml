@@ -2,7 +2,7 @@
 
 [project]
 name = "nonebot_plugin_acm_reminder"
-version = "0.1.0"
+version = "0.1.1"
 description = "A subscribe CodeForces/NowCoder contest info plugin for nonebot2"
 authors = [
     {name = "BigOrangeQWQ", email = "2284086963@qq.com"},

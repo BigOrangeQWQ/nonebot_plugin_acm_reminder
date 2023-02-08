@@ -1,7 +1,7 @@
 <div align="center">
 # ACM Reminder
 
-一款可查询与订阅牛客/CF竞赛的插件
+一款可查询与订阅牛客/CF竞赛的插件  
 <a href="https://pypi.python.org/pypi/nonebot-plugin-acm-reminder">
     <img src="https://img.shields.io/pypi/dm/nonebot-plugin-acm-reminder?style=for-the-badge" alt="Download">
 </a>
@@ -33,10 +33,10 @@ update_time = 360
 
 ## TODO
 
-- [ ] 订阅指定竞赛，并提醒
 - [x] 获取竞赛信息并形成列表
+- [x] 支持CodeForces平台
+- [x] 支持牛客平台
+- [ ] 订阅指定竞赛，并提醒
 - [ ] 可通过指令获取竞赛链接
 - [ ] 支持洛谷平台
-- [x] 支持CodeForces平台
 - [ ] 支持力扣平台
-- [x] 支持牛客平台

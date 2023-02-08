@@ -24,7 +24,7 @@ update_time = 360
 /contest.list 拉取竞赛列表
 ```
 
-##TODO
+## TODO
 
 - [ ] 订阅指定竞赛，并提醒
 - [x] 获取竞赛信息并形成列表

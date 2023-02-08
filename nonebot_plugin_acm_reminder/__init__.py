@@ -39,16 +39,21 @@ async def update():
 
 @scheduler.scheduled_job('interval', minutes=plugin_config.update_time, id="update_contest")
 async def update_contest():
-    await update()
-
+    try:
+        await update()
+    except Exception as e:
+        logger.warning("ACMReminder拉取竞赛数据失败")
+        logger.warning("请检查网络连接或者稍后重试")
+        logger.warning(e)
 
 @driver.on_startup
 async def startup():
     try:
         await update()
-    except:
+    except Exception as e:
         logger.warning("ACMReminder拉取竞赛数据失败")
         logger.warning("请检查网络连接或者稍后重试")
+        logger.warning(e)
     # 防止因为网络问题导致机器人启动失败
 
 

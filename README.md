@@ -2,8 +2,8 @@
 # ACM Reminder
 
 一款可查询与订阅牛客/CF竞赛的插件
-<a href="https://pypi.python.org/pypi/nonebot-plugin-orangedice">
-    <img src="https://img.shields.io/pypi/dm/nonebot-plugin-orangedice?style=for-the-badge" alt="Download">
+<a href="https://pypi.python.org/pypi/nonebot-plugin-acm-reminder">
+    <img src="https://img.shields.io/pypi/dm/nonebot-plugin-acm-reminder?style=for-the-badge" alt="Download">
 </a>
 
 </div>

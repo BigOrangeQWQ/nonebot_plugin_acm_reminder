@@ -53,6 +53,7 @@ def html_parse_cf(content: str) -> list[ContestType]:
         if cdata:
             cwriters = [i.string for i in cdata[1].find_all("a")] #获得主办方
             ctime = mktime(strptime(cdata[2].find("span").string, "%b/%d/%Y %H:%M")) #获得开始时间戳
+            ctime+=5*60*60
             clength = strptime(str(cdata[3].string).strip("\n").strip(), "%H:%M")
             contest_data.append({"name": str(cdata[0].string).strip("\n").strip(), 
                                 "writes": cwriters, 

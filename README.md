@@ -19,9 +19,9 @@ nb plugin install nonebot-plugin-acm-reminder
 
 ## 配置项
 
-* 拉取竞赛列表的更新时间
+* 拉取竞赛列表的更新时间(分钟)
 ```
-update_time = 360
+update_time = 720
 ```
 
 ## 用法
@@ -31,6 +31,7 @@ update_time = 360
 . := [命令分隔符]
 
 /contest.list 拉取竞赛列表
+/contest.update 更新竞赛列表
 ```
 
 ## TODO

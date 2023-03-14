@@ -1,3 +1,5 @@
 /.venv
-.pdm.toml
 /dist
+.pdm.toml
+pdm.lock
+

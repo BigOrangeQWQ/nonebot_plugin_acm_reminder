@@ -61,7 +61,7 @@ async def update_handle(event: MessageEvent):
 async def get_list(event: MessageEvent):
     msg = '<div align="center">\n <h1> 近期竞赛 </h1> \n</div>'
     for contest in contest_data:
-        time = datetime.utcfromtimestamp(
+        time = datetime.fromtimestamp(
             contest["time"]).strftime("%Y-%m-%d %H:%M")
         writes = ",".join(filter(None, contest["writes"])) if len(
             contest["writes"]) < 5 else ",".join(filter(None, contest["writes"][:5])) + "..."

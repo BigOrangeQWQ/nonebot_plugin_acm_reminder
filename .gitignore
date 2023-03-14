@@ -1,5 +1,10 @@
+### build ###
 /.venv
 /dist
+
+### cache ###
+__pycache__/
+
+### PDM ###
 .pdm.toml
 pdm.lock
-

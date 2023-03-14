@@ -1,7 +1,7 @@
 from json import loads
 from time import strptime, mktime
 from html import unescape
-from typing import Literal, TypedDict
+from typing import Literal, TypedDict, List
 from httpx import AsyncClient
 from httpx._types import URLTypes
 from bs4 import BeautifulSoup, ResultSet
@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup, ResultSet
 class ContestType(TypedDict):
     id: int  # 竞赛ID
     name: str  # 竞赛名称
-    writes: list[str]  # 竞赛主办方
+    writes: List[str]  # 竞赛主办方
     length: int  # 竞赛时长 [分钟]
     time: float  # 竞赛开始时间戳
     platform: Literal["Codeforces", "Nowcoder"]  # 竞赛平台
@@ -29,7 +29,7 @@ async def req_get(url: URLTypes) -> str:
         r = await client.get(url)
     return r.content.decode("utf-8")
 
-def html_parse_cf(content: str) -> list[ContestType]:
+def html_parse_cf(content: str) -> List[ContestType]:
     """
     处理Codeforces的竞赛列表
 
@@ -39,7 +39,7 @@ def html_parse_cf(content: str) -> list[ContestType]:
     Returns:
         list: 竞赛列表
     """
-    contest_data: list[ContestType] = []
+    contest_data: List[ContestType] = []
     
     soup = BeautifulSoup(content, 'html.parser')
     datatable = soup.find('div', class_='datatable')  # 获取到数据表
@@ -62,7 +62,7 @@ def html_parse_cf(content: str) -> list[ContestType]:
                                 "id": contest.get("data-contestid")})
     return contest_data
 
-def html_parse_nc(content: str) -> list[ContestType]:
+def html_parse_nc(content: str) -> List[ContestType]:
     """
     处理牛客的竞赛列表 
 
@@ -72,7 +72,7 @@ def html_parse_nc(content: str) -> list[ContestType]:
     Returns:
         list: 竞赛列表
     """
-    contest_data: list[ContestType] = []
+    contest_data: List[ContestType] = []
     soup = BeautifulSoup(content, 'html.parser')
     datatable: ResultSet = soup.find('div', class_='platform-mod js-current').find_all('div', class_='platform-item js-item') #type: ignore
     for contest in datatable:

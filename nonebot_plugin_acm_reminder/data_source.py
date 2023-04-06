@@ -86,16 +86,3 @@ def html_parse_nc(content: str) -> List[ContestType]:
                                 "platform": "Nowcoder", 
                                 "id": cdata["contestId"]})
     return contest_data
-
-import asyncio
-
-async def update():
-    """
-    更新比赛信息
-    """
-    
-    a = html_parse_cf(await req_get("https://codeforces.com/contests"))
-    b = html_parse_nc(await req_get("https://ac.nowcoder.com/acm/contest/vip-index?topCategoryFilter=13"))
-    print(a,b)
-    
-asyncio.run(update())

@@ -15,7 +15,7 @@ class ContestType(TypedDict):
     platform: Literal["Codeforces", "Nowcoder"]  # 竞赛平台
 
 
-async def req_get(url: URLTypes, proxies: ProxiesTypes = "Proxy") -> str:
+async def req_get(url: URLTypes, proxies: Optional[ProxiesTypes] = None) -> str:
     """
     生成一个异步的GET请求
 
@@ -86,3 +86,16 @@ def html_parse_nc(content: str) -> List[ContestType]:
                                 "platform": "Nowcoder", 
                                 "id": cdata["contestId"]})
     return contest_data
+
+# import asyncio
+
+# async def update():
+#     """
+#     更新比赛信息
+#     """
+    
+#     a = html_parse_cf(await req_get("https://codeforces.com/contests"))
+#     b = html_parse_nc(await req_get("https://ac.nowcoder.com/acm/contest/vip-index?topCategoryFilter=14"))
+#     print(a,b)
+    
+# asyncio.run(update())

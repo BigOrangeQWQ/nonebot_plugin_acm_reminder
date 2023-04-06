@@ -39,13 +39,9 @@ async def update():
     更新比赛信息
     """
     contest_data.clear()
-    proxies = plugin_config.proxies
-    if proxies != "Proxy" and proxies:
-        contest_data.extend(html_parse_cf(await req_get("https://codeforces.com/contests", proxies=URL(proxies))))
-        contest_data.extend(html_parse_nc(await req_get("https://ac.nowcoder.com/acm/contest/vip-index?topCategoryFilter=13")))
-    else:
-        contest_data.extend(html_parse_cf(await req_get("https://codeforces.com/contests")))
-        contest_data.extend(html_parse_nc(await req_get("https://ac.nowcoder.com/acm/contest/vip-index?topCategoryFilter=13")))
+    contest_data.extend(html_parse_cf(await req_get("https://codeforces.com/contests")))
+    contest_data.extend(html_parse_nc(await req_get("https://ac.nowcoder.com/acm/contest/vip-index?topCategoryFilter=13")))
+    contest_data.extend(html_parse_nc(await req_get("https://ac.nowcoder.com/acm/contest/vip-index?topCategoryFilter=14")))
 
 
 @scheduler.scheduled_job('interval', minutes=plugin_config.update_time, id="update_contest")

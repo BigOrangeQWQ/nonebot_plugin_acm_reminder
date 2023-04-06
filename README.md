@@ -22,6 +22,9 @@ nb plugin install nonebot-plugin-acm-reminder
 * 拉取竞赛列表的更新时间(分钟)
 ```
 update_time = 720
+
+proxies = "" 
+#可为Proxy or URL
 ```
 
 ## 用法

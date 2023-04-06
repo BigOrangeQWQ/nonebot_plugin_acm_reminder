@@ -1,9 +1,9 @@
 from json import loads
 from time import strptime, mktime
 from html import unescape
-from typing import Literal, TypedDict, List
+from typing import Literal, Optional, TypedDict, List, Dict
 from httpx import AsyncClient
-from httpx._types import URLTypes
+from httpx._types import URLTypes, ProxiesTypes
 from bs4 import BeautifulSoup, ResultSet
 
 class ContestType(TypedDict):
@@ -15,7 +15,7 @@ class ContestType(TypedDict):
     platform: Literal["Codeforces", "Nowcoder"]  # 竞赛平台
 
 
-async def req_get(url: URLTypes) -> str:
+async def req_get(url: URLTypes, proxies: ProxiesTypes = "Proxy") -> str:
     """
     生成一个异步的GET请求
 
@@ -25,7 +25,7 @@ async def req_get(url: URLTypes) -> str:
     Returns:
         str: URL对应的HTML
     """
-    async with AsyncClient() as client:
+    async with AsyncClient(proxies=proxies) as client:
         r = await client.get(url)
     return r.content.decode("utf-8")
 
@@ -86,3 +86,16 @@ def html_parse_nc(content: str) -> List[ContestType]:
                                 "platform": "Nowcoder", 
                                 "id": cdata["contestId"]})
     return contest_data
+
+import asyncio
+
+async def update():
+    """
+    更新比赛信息
+    """
+    
+    a = html_parse_cf(await req_get("https://codeforces.com/contests"))
+    b = html_parse_nc(await req_get("https://ac.nowcoder.com/acm/contest/vip-index?topCategoryFilter=13"))
+    print(a,b)
+    
+asyncio.run(update())

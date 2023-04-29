@@ -1,7 +1,7 @@
 from json import loads
 from time import strptime, mktime
 from html import unescape
-from typing import Literal, Optional, TypedDict, List, Dict
+from typing import Literal, Optional, TypedDict, List
 from httpx import AsyncClient
 from httpx._types import URLTypes, ProxiesTypes
 from bs4 import BeautifulSoup, ResultSet
@@ -54,7 +54,10 @@ def html_parse_cf(content: str) -> List[ContestType]:
             cwriters = [i.string for i in cdata[1].find_all("a")] #获得主办方
             ctime = mktime(strptime(cdata[2].find("span").string, "%b/%d/%Y %H:%M")) #获得开始时间戳
             ctime+=5*60*60
-            clength = strptime(str(cdata[3].string).strip("\n").strip(), "%H:%M")
+            try:
+                clength = strptime(str(cdata[3].string).strip("\n").strip(), "%H:%M")
+            except:
+                clength = strptime(str(cdata[3].string).strip("\n").strip(), "%H:%M:%S")
             contest_data.append({"name": str(cdata[0].string).strip("\n").strip(), 
                                 "writes": cwriters, 
                                 "time": ctime, 

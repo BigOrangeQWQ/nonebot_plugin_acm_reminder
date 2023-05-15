@@ -1,9 +1,8 @@
 from datetime import datetime
 from typing import List
-from httpx import URL
 from nonebot.adapters.onebot.v11 import MessageEvent, MessageSegment
 from nonebot.plugin import on_command, PluginMetadata
-from nonebot import get_driver, require
+from nonebot import get_driver, logger, require
 
 
 from .config import Config
@@ -43,15 +42,22 @@ async def update():
     contest_data.extend(html_parse_nc(await req_get("https://ac.nowcoder.com/acm/contest/vip-index?topCategoryFilter=13")))
     contest_data.extend(html_parse_nc(await req_get("https://ac.nowcoder.com/acm/contest/vip-index?topCategoryFilter=14")))
 
-
 @scheduler.scheduled_job('interval', minutes=plugin_config.update_time, id="update_contest")
 async def update_contest():
-    await update()
+    try:
+        await update()
+    except Exception as e:
+        logger.warning("拉取竞赛信息更新失败!")
+        logger.warning(e)
 
 
 @driver.on_startup
 async def startup():
-    await update()
+    try:
+        await update()
+    except Exception as e:
+        logger.warning("拉取竞赛信息更新失败!")
+        logger.warning(e)
     # 防止因为网络问题导致机器人启动失败
 
 
@@ -60,6 +66,8 @@ async def update_handle(event: MessageEvent):
     try:
         await update()
     except Exception as e:
+        logger.warning("拉取竞赛信息更新失败!")
+        logger.warning(e)
         await contest_update.finish(MessageSegment.image(await md_to_pic(f"更新失败 {e}")))
 
     await contest_update.finish("更新成功")

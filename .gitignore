@@ -9,3 +9,4 @@ __pycache__/
 .pdm.toml
 # pdm.lock
 .pdm-python
+.pypirc

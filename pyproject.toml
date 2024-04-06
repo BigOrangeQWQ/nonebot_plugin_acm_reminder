@@ -1,8 +1,13 @@
 [tool.pdm]
 
+[tool.pdm.dev-dependencies]
+dev = [
+    "keyring>=25.1.0",
+]
+
 [project]
 name = "nonebot_plugin_acm_reminder"
-version = "0.1.8"
+version = "0.1.9"
 description = "A subscribe CodeForces/NowCoder/Atcoder contest info plugin for nonebot2"
 authors = [
     {name = "BigOrangeQWQ", email = "2284086963@qq.com"},
